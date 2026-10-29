@@ -3,7 +3,8 @@
  
 
 ## IMPLEMETATION OF VIGENERE CIPHER
- 
+## Date: 29-10-26
+## Name: Siddharth CM
 
 ## AIM:
 
@@ -31,6 +32,99 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 ## PROGRAM
 
+```
+#include <stdio.h>
+#include <string.h>
+
+void vigenereEncrypt(char text[], const char key[])
+{
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
+    int j = 0;
+
+    for (int i = 0; i < textLen; i++)
+    {
+        char c = text[i];
+
+        if (c >= 'A' && c <= 'Z')
+        {
+            text[i] = ((c - 'A' + key[j % keyLen] - 'A') % 26) + 'A';
+            j++;
+        }
+        else if (c >= 'a' && c <= 'z')
+        {
+            text[i] = ((c - 'a' + key[j % keyLen] - 'A') % 26) + 'a';
+            j++;
+        }
+    }
+}
+
+void vigenereDecrypt(char text[], const char key[])
+{
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
+    int j = 0;
+
+    for (int i = 0; i < textLen; i++)
+    {
+        char c = text[i];
+
+        if (c >= 'A' && c <= 'Z')
+        {
+            text[i] = ((c - 'A' - (key[j % keyLen] - 'A') + 26) % 26) + 'A';
+            j++;
+        }
+        else if (c >= 'a' && c <= 'z')
+        {
+            text[i] = ((c - 'a' - (key[j % keyLen] - 'A') + 26) % 26) + 'a';
+            j++;
+        }
+    }
+}
+
+int main()
+{
+    char message[200];
+    char original[200];
+    char key[100];
+
+    printf("Enter the plaintext: ");
+    fgets(message, sizeof(message), stdin);
+    message[strcspn(message, "\n")] = '\0';
+
+    printf("Enter the encryption key (uppercase letters only): ");
+    scanf("%99s", key);
+
+    if (strlen(key) == 0)
+    {
+        printf("Invalid key!\n");
+        return 1;
+    }
+
+    for (int i = 0; key[i] != '\0'; i++)
+    {
+        if (key[i] < 'A' || key[i] > 'Z')
+        {
+            printf("Invalid key! Use uppercase letters A-Z only.\n");
+            return 1;
+        }
+    }
+
+    strcpy(original, message);
+
+    vigenereEncrypt(message, key);
+    printf("Encrypted Message: %s\n", message);
+
+    vigenereDecrypt(message, key);
+    printf("Decrypted Message: %s\n", message);
+
+    return 0;
+}
+```
+
 ## OUTPUT
 
+<img width="1917" height="880" alt="image" src="https://github.com/user-attachments/assets/f6fcb8fe-de6c-4515-b325-2cc5042711b7" />
+
 ## RESULT
+The program is executed successfully
